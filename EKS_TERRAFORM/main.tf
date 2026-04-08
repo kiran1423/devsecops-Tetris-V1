@@ -38,7 +38,8 @@ resource "aws_eks_cluster" "example" {
   role_arn = aws_iam_role.example.arn
 
   vpc_config {
-    subnet_ids = data.aws_subnets.public.ids
+#    subnet_ids = data.aws_subnets.public.ids
+subnet_ids = setsubtract(data.aws_subnets.public.ids, ["subnet-0095dda6c8555f8a1"]) 
   }
 
   # Ensure that IAM Role permissions are created before and deleted after EKS Cluster handling.
@@ -83,14 +84,15 @@ resource "aws_eks_node_group" "example" {
   cluster_name    = aws_eks_cluster.example.name
   node_group_name = "Node-cloud"
   node_role_arn   = aws_iam_role.example1.arn
-  subnet_ids      = data.aws_subnets.public.ids
+#  subnet_ids      = data.aws_subnets.public.ids
+subnet_ids = setsubtract(data.aws_subnets.public.ids, ["subnet-0095dda6c8555f8a1"]) 
 
   scaling_config {
     desired_size = 1
     max_size     = 2
     min_size     = 1
   }
-  instance_types = ["t3.medium"]
+  instance_types = ["t3.small"]
 
   # Ensure that IAM Role permissions are created before and deleted after EKS Node Group handling.
   # Otherwise, EKS will not be able to properly delete EC2 Instances and Elastic Network Interfaces.
