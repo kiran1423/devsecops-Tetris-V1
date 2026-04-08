@@ -92,7 +92,7 @@ subnet_ids = setsubtract(data.aws_subnets.public.ids, ["subnet-0095dda6c8555f8a1
     max_size     = 2
     min_size     = 1
   }
-  instance_types = ["t3.small"]
+  instance_types = ["c7i-flex.large"]
 
   # Ensure that IAM Role permissions are created before and deleted after EKS Node Group handling.
   # Otherwise, EKS will not be able to properly delete EC2 Instances and Elastic Network Interfaces.
